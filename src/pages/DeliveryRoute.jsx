@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDeliveryData } from '../context/useDeliveryData'
 
-const DEFAULT_CENTER = [75.7873, 26.9124] // Jaipur, Rajasthan (demo map centre)
+const DEFAULT_CENTER = [75.7873, 26.9124] // Initial map view only; actual route uses order coordinates
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || ''
 
 function DeliveryRoute() {
@@ -41,7 +41,7 @@ function DeliveryRoute() {
     if (!map || !MAPBOX_TOKEN || activeStops.length < 1) return
     const remainingStops = activeStops.filter((order) => order.coordinates[0] !== origin[0] || order.coordinates[1] !== origin[1])
     const waypoints = [origin, ...remainingStops.map((order) => order.coordinates)]
-    // Mapbox Directions accepts a limited number of coordinates per request; keep this demo route within the standard limit.
+    // Mapbox Directions accepts a limited number of coordinates per request; limit the request to the supported waypoint count.
     const coordinates = waypoints.slice(0, 25).map(([lng, lat]) => `${lng},${lat}`).join(';')
     const requestId = ++routeRequestRef.current
     setRouteMessage('Calculating driving route…')
@@ -59,7 +59,7 @@ function DeliveryRoute() {
         map.addSource('delivery-route', { type: 'geojson', data: sourceData })
         map.addLayer({ id: 'delivery-route-line', type: 'line', source: 'delivery-route', layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': '#248454', 'line-width': 5, 'line-opacity': 0.88 } })
       }
-      setRouteMessage(`${(route.distance / 1000).toFixed(1)} km · ${Math.round(route.duration / 60)} min estimated driving time · demo route`)
+      setRouteMessage(`${(route.distance / 1000).toFixed(1)} km · ${Math.round(route.duration / 60)} min estimated driving time · route preview`)
       const bounds = new window.mapboxgl.LngLatBounds()
       route.geometry.coordinates.forEach((point) => bounds.extend(point))
       map.fitBounds(bounds, { padding: 55, maxZoom: 13, duration: 700 })
@@ -86,7 +86,7 @@ function DeliveryRoute() {
         element.className = `mapbox-stop-marker ${order.status === 'Dispatched' ? 'is-dispatched' : ''}`
         element.textContent = String(index + 1)
         element.setAttribute('aria-label', `Stop ${index + 1}: ${order.customer}`)
-        const popup = new window.mapboxgl.Popup({ offset: 18 }).setHTML(`<strong>${order.customer}</strong><br>${order.id}<br>${order.address}<br><small>${order.status} · illustrative stop</small>`)
+        const popup = new window.mapboxgl.Popup({ offset: 18 }).setHTML(`<strong>${order.customer}</strong><br>${order.id}<br>${order.address}<br><small>${order.status} · coordinate verification pending</small>`)
         return new window.mapboxgl.Marker({ element }).setLngLat(order.coordinates).setPopup(popup).addTo(map)
       })
       if (activeStops.length) drawRoute(activeStops[0].coordinates)
@@ -111,7 +111,7 @@ function DeliveryRoute() {
       const element = document.createElement('div')
       element.className = `mapbox-stop-marker ${order.status === 'Dispatched' ? 'is-dispatched' : ''}`
       element.textContent = String(index + 1)
-      const popup = new window.mapboxgl.Popup({ offset: 18 }).setHTML(`<strong>${order.customer}</strong><br>${order.id}<br>${order.address}<br><small>${order.status} · illustrative stop</small>`)
+      const popup = new window.mapboxgl.Popup({ offset: 18 }).setHTML(`<strong>${order.customer}</strong><br>${order.id}<br>${order.address}<br><small>${order.status} · coordinate verification pending</small>`)
       return new window.mapboxgl.Marker({ element }).setLngLat(order.coordinates).setPopup(popup).addTo(map)
     })
     if (map.loaded() && activeStops.length) drawRoute(activeStops[0].coordinates)
@@ -208,9 +208,9 @@ const endTracking = () => {
   }
 
   return <>
-    <header className="topbar professional-page-header"><div><p className="breadcrumb">Delivery Workspace / Delivery Route</p><h1>Delivery Route</h1><p className="muted-text">Plan a demo route and check this device's current GPS location.</p></div><span className="demo-pill"><i /> MAPBOX · DEMO DATA</span></header>
+    <header className="topbar professional-page-header"><div><p className="breadcrumb">Delivery Workspace / Delivery Route</p><h1>Delivery Route</h1><p className="muted-text">View delivery stops and check this device's current GPS location.</p></div><span className="demo-pill"><i /> MAPBOX · ROUTE PREVIEW</span></header>
     <section className="route-summary-cards">
-      <div className="route-summary-card"><span>Active stops</span><strong>{activeStops.length}</strong><small>Packed and dispatched demo orders</small></div>
+      <div className="route-summary-card"><span>Active stops</span><strong>{activeStops.length}</strong><small>Packed and dispatched orders</small></div>
       <div className="route-summary-card"><span>Route completion</span><strong>{routeProgress}%</strong><div className="route-progress-track"><span style={{ width: `${routeProgress}%` }} /></div><small>{delivered} delivered · {cancelled} cancelled excluded from active route</small></div>
       <div className="route-summary-card"><span>GPS tracking</span><strong className="route-planning-status">{gpsState === 'active' ? 'Active' : gpsState === 'paused' ? 'Paused' : 'Not started'}</strong><small>{lastUpdated ? `Updated ${lastUpdated.toLocaleTimeString()}` : 'Location is not being shared'}</small></div>
     </section>
@@ -219,8 +219,8 @@ const endTracking = () => {
 
     <section className="mapbox-workspace">
       <div className="mapbox-map-panel">
-        {MAPBOX_TOKEN ? <div ref={mapContainer} className="mapbox-live-map" aria-label="Interactive delivery route map" /> : <div className="mapbox-token-placeholder"><div className="mapbox-placeholder-grid"/><div className="mapbox-placeholder-content"><span className="route-eyebrow">MAPBOX ROUTE PLANNER</span><h2>Interactive map is ready to connect</h2><p>Add your public Mapbox token to display Jaipur demo stops and road directions.</p><div className="mapbox-placeholder-stops"><span>01 · Vaishali Nagar</span><span>02 · Mansarovar</span><span>03 · Jagatpura</span></div></div></div>}
-        <div className="mapbox-map-legend"><span><i className="legend-stop"/> Demo delivery stop</span><span><i className="legend-driver"/> This device's GPS</span></div>
+        {MAPBOX_TOKEN ? <div ref={mapContainer} className="mapbox-live-map" aria-label="Interactive delivery route map" /> : <div className="mapbox-token-placeholder"><div className="mapbox-placeholder-grid"/><div className="mapbox-placeholder-content"><span className="route-eyebrow">MAPBOX ROUTE PLANNER</span><h2>Interactive map is ready to connect</h2><p>Add your public Mapbox token to display delivery stops and road directions.</p><div className="mapbox-placeholder-stops"><span>Delivery stop 01</span><span>Delivery stop 02</span><span>Delivery stop 03</span></div></div></div>}
+        <div className="mapbox-map-legend"><span><i className="legend-stop"/> Delivery stop</span><span><i className="legend-driver"/> This device's GPS</span></div>
       </div>
       <aside className="mapbox-control-panel">
         <span className="route-eyebrow">DRIVER LOCATION</span>
@@ -288,8 +288,8 @@ const endTracking = () => {
       </aside>
     </section>
 
-    <section className="orders-panel professional-orders-panel route-stops-panel"><div className="orders-heading"><div><h2>Delivery Stops</h2><p>{stops.length} stops in the current view · illustrative coordinates</p></div><div className="order-filters"><select aria-label="Filter route stops" value={filter} onChange={(event) => setFilter(event.target.value)}><option>Active stops</option><option>All stops</option><option>Delivered</option><option>Cancelled</option></select></div></div><div className="route-stop-list">{stops.length ? stops.map((order, index) => <article className="route-stop" key={order.id}><div className={`stop-number ${order.status === 'Delivered' ? 'stop-done' : ''}`}>{index + 1}</div><div className="stop-content"><div className="stop-title-row"><div><strong>{order.customer}</strong><span>{order.id}</span></div><span className={`delivery-status status-${order.status.toLowerCase()}`}>{order.status}</span></div><p>⌖ {order.address}</p><small>{order.items.map((item) => `${item.name} (${item.quantity})`).join(' · ')}</small>{['Packed', 'Dispatched'].includes(order.status) && <div className="route-stop-actions"><button type="button" className="secondary-button route-stop-action" onClick={() => advanceStop(order)}>{order.status === 'Packed' ? 'Mark dispatched' : 'Mark delivered'}</button></div>}</div></article>) : <div className="empty-orders">No stops match this filter.</div>}</div></section>
-    <p className="global-demo-note"><span>ⓘ</span> Demo coordinates are approximate and illustrative, not verified customer addresses. GPS updates are local to this device and session; database/realtime sharing is intentionally deferred.</p><footer className="page-footer"><span>© E-SDMART · Delivery Workspace</span><span>Mapbox route planning · GPS demo</span></footer>
+    <section className="orders-panel professional-orders-panel route-stops-panel"><div className="orders-heading"><div><h2>Delivery Stops</h2><p>{stops.length} stops in the current view · verify addresses before dispatch</p></div><div className="order-filters"><select aria-label="Filter route stops" value={filter} onChange={(event) => setFilter(event.target.value)}><option>Active stops</option><option>All stops</option><option>Delivered</option><option>Cancelled</option></select></div></div><div className="route-stop-list">{stops.length ? stops.map((order, index) => <article className="route-stop" key={order.id}><div className={`stop-number ${order.status === 'Delivered' ? 'stop-done' : ''}`}>{index + 1}</div><div className="stop-content"><div className="stop-title-row"><div><strong>{order.customer}</strong><span>{order.id}</span></div><span className={`delivery-status status-${order.status.toLowerCase()}`}>{order.status}</span></div><p>⌖ {order.address}</p><small>{order.items.map((item) => `${item.name} (${item.quantity})`).join(' · ')}</small>{['Packed', 'Dispatched'].includes(order.status) && <div className="route-stop-actions"><button type="button" className="secondary-button route-stop-action" onClick={() => advanceStop(order)}>{order.status === 'Packed' ? 'Mark dispatched' : 'Mark delivered'}</button></div>}</div></article>) : <div className="empty-orders">No stops match this filter.</div>}</div></section>
+    <p className="global-demo-note"><span>ⓘ</span> Customer stop coordinates have not yet been verified against delivery addresses. Confirm each location before dispatch. GPS updates stay on this device and in this session; sharing with other users requires an authenticated backend.</p><footer className="page-footer"><span>© E-SDMART · Delivery Workspace</span><span>Mapbox route planning · Local GPS</span></footer>
   </>
 }
 export default DeliveryRoute

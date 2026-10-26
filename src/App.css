@@ -2324,56 +2324,57 @@ img {
   }
 }
 
-
-/* Center the My Deliveries page heading */
+/* My Deliveries header alignment */
 .deliveries-page .deliveries-header {
   position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  min-height: 150px;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  min-height: 0;
   margin-bottom: 30px;
+  text-align: left;
 }
 
 .deliveries-page .deliveries-header > div:first-child {
-  width: 100%;
-  text-align: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto;
+  text-align: left;
 }
 
 .deliveries-page .deliveries-header h1 {
-  margin: 0 0 10px;
-  font-size: 36px;
-  line-height: 1.3;
+  margin: 0 0 8px;
+  font-size: clamp(26px, 2.2vw, 34px);
+  line-height: 1.2;
 }
 
 .deliveries-page .deliveries-header .breadcrumb {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .deliveries-page .deliveries-header .deliveries-subtitle {
   margin: 0;
 }
 
-.deliveries-page .deliveries-header .profile-chip {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+.deliveries-page .deliveries-header .header-actions {
+  flex: 0 0 auto;
+  justify-content: flex-end;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 600px) {
   .deliveries-page .deliveries-header {
+    align-items: flex-start;
     flex-direction: column;
-    gap: 18px;
-    padding-bottom: 10px;
+    gap: 14px;
   }
 
-  .deliveries-page .deliveries-header .profile-chip {
-    position: static;
-    transform: none;
+  .deliveries-page .deliveries-header .header-actions {
+    width: 100%;
+    justify-content: flex-start;
   }
 }
+
 
 
 
@@ -3115,4 +3116,71 @@ textarea:focus {
 @media (max-width: 700px) {
   .dashboard-welcome .welcome-art { min-height: 240px; }
   .dashboard-welcome .gaushala-photo { min-height: 240px; }
+}
+
+/* My Deliveries search box: keep the icon and input inside one border. */
+.professional-orders-panel .search-field,
+.deliveries-page .search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 245px;
+  min-height: 39px;
+  padding: 0 12px;
+  border: 1px solid #e0e7da;
+  border-radius: 12px;
+  background: #fff;
+  color: #819087;
+  box-shadow: none;
+}
+
+.professional-orders-panel .search-field:focus-within,
+.deliveries-page .search-field:focus-within {
+  border-color: #76aa87;
+  box-shadow: 0 0 0 3px rgb(56 136 94 / 10%);
+}
+
+.professional-orders-panel .search-field input,
+.deliveries-page .search-field input {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0 !important;
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  box-shadow: none !important;
+}
+
+.professional-orders-panel .search-field input:focus,
+.deliveries-page .search-field input:focus {
+  border: 0 !important;
+  outline: none;
+  background: transparent;
+  box-shadow: none !important;
+}
+
+.professional-orders-panel .search-field > span,
+.deliveries-page .search-field > span {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0 !important;
+  background: transparent;
+  box-shadow: none !important;
+  line-height: 1;
+}
+
+@media (max-width: 700px) {
+  .professional-orders-panel .search-field,
+  .deliveries-page .search-field {
+    min-width: 0;
+  }
 }
