@@ -3,6 +3,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { DeliveryDataContext } from './deliveryContext'
 
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || ''
+
 const STATUS_FROM_DB = {
   Pending: 'Packed',
   'Out for delivery': 'Dispatched',
@@ -15,6 +17,51 @@ const STATUS_TO_DB = {
   Dispatched: 'Out for delivery',
   Delivered: 'Delivered',
   Cancelled: 'Cancelled',
+}
+
+// Convert a delivery address into [longitude, latitude].
+async function geocodeAddress(address) {
+  if (!address?.trim() || !MAPBOX_TOKEN) {
+    return null
+  }
+
+  try {
+    const params = new URLSearchParams({
+      q: address.trim(),
+      access_token: MAPBOX_TOKEN,
+      country: 'IN',
+      limit: '1',
+    })
+
+    const response = await fetch(
+      `https://api.mapbox.com/search/geocode/v6/forward?${params}`
+    )
+
+    if (!response.ok) {
+      console.error(
+        'Mapbox geocoding failed:',
+        response.status,
+        await response.text()
+      )
+      return null
+    }
+
+    const data = await response.json()
+    const coordinates = data.features?.[0]?.geometry?.coordinates
+
+    if (
+      !Array.isArray(coordinates) ||
+      coordinates.length !== 2 ||
+      !coordinates.every(Number.isFinite)
+    ) {
+      return null
+    }
+
+    return coordinates
+  } catch (error) {
+    console.error('Address geocoding failed:', error)
+    return null
+  }
 }
 
 function mapOrder(row) {
@@ -35,6 +82,8 @@ function mapOrder(row) {
     status: STATUS_FROM_DB[row.delivery_status] ?? row.delivery_status,
     driverId: row.driver_id ?? null,
     driverName: staff?.name ?? 'Not assigned',
+
+    // Filled after geocoding the address.
     coordinates: null,
 
     items: orderItems.map((item) => {
@@ -106,7 +155,17 @@ export function DeliveryDataProvider({ children }) {
         throw error
       }
 
-      setOrders((data ?? []).map(mapOrder))
+      const mappedOrders = (data ?? []).map(mapOrder)
+
+      // Geocode addresses in parallel so route markers can be created.
+      const ordersWithCoordinates = await Promise.all(
+        mappedOrders.map(async (order) => ({
+          ...order,
+          coordinates: await geocodeAddress(order.address),
+        }))
+      )
+
+      setOrders(ordersWithCoordinates)
     } catch (error) {
       console.error('Supabase orders fetch failed:', error)
       setConnectionError(error.message || 'Unable to load orders.')

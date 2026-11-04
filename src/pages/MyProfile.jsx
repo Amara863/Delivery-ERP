@@ -14,6 +14,23 @@ function MyProfile() {
   const [draft, setDraft] = useState(initialProfile)
   const [editing, setEditing] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [error, setError] = useState('')
+
+  const displayName = profile.name || 'Delivery Staff'
+  const displayStaffId = profile.staffId || 'Not assigned'
+  const initials = displayName
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0].toUpperCase())
+    .join('')
+
+  const handleEdit = () => {
+    setDraft({ ...profile })
+    setEditing(true)
+    setSaved(false)
+    setError('')
+  }
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -24,39 +41,59 @@ function MyProfile() {
     }))
 
     setSaved(false)
-  }
-
-  const handleEdit = () => {
-    setDraft({ ...profile })
-    setEditing(true)
-    setSaved(false)
+    setError('')
   }
 
   const handleCancel = () => {
     setDraft({ ...profile })
     setEditing(false)
     setSaved(false)
+    setError('')
   }
 
   const handleSave = (event) => {
     event.preventDefault()
+    setSaved(false)
+    setError('')
 
     const updatedProfile = {
       ...draft,
       name: draft.name.trim(),
-      staffId: draft.staffId.trim(),
+      staffId: profile.staffId,
+      role: profile.role,
       phone: draft.phone.trim(),
-      email: draft.email.trim(),
+      email: draft.email.trim().toLowerCase(),
     }
 
+    if (!updatedProfile.name) {
+      setError('Please enter your full name.')
+      return
+    }
+
+    if (
+      updatedProfile.phone &&
+      !/^[+\d\s()-]{7,20}$/.test(updatedProfile.phone)
+    ) {
+      setError('Please enter a valid phone number.')
+      return
+    }
+
+    if (
+      updatedProfile.email &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(updatedProfile.email)
+    ) {
+      setError('Please enter a valid email address.')
+      return
+    }
+
+    // Temporary local state only.
+    // Replace with an authenticated Supabase update before
+    // claiming that profile changes are permanently saved.
     setProfile(updatedProfile)
     setDraft(updatedProfile)
     setEditing(false)
     setSaved(true)
   }
-
-  const displayName = profile.name || 'Delivery Staff'
-  const displayStaffId = profile.staffId || 'Not assigned'
 
   return (
     <>
@@ -65,12 +102,12 @@ function MyProfile() {
           <p className="breadcrumb">Workspace / My Profile</p>
           <h2>My Profile</h2>
           <p className="muted-text">
-            View and edit your delivery staff profile.
+            View and manage your delivery staff information.
           </p>
         </div>
 
         <div className="profile-chip">
-          <div className="avatar">DS</div>
+          <div className="avatar">{initials || 'DS'}</div>
           <div>
             <strong>{displayName}</strong>
             <p>{profile.role}</p>
@@ -81,15 +118,15 @@ function MyProfile() {
       <section className="section-heading">
         <div>
           <h2>Profile Information</h2>
-          <p>Manage your basic contact information.</p>
+          <p>Manage your personal and contact information.</p>
         </div>
-
-        <span className="date-label">PREVIEW MODE</span>
       </section>
 
       <section className="orders-panel profile-panel">
         <div className="profile-banner">
-          <div className="profile-large-avatar">DS</div>
+          <div className="profile-large-avatar">
+            {initials || 'DS'}
+          </div>
           <div>
             <h2>{displayName}</h2>
             <p>{profile.role}</p>
@@ -101,7 +138,10 @@ function MyProfile() {
           <div className="profile-form-heading">
             <div>
               <h3>Personal Details</h3>
-              <p>Enter your information below.</p>
+              <p>
+                Update your contact details. Staff ID and role
+                are managed by an administrator.
+              </p>
             </div>
 
             {!editing && (
@@ -124,9 +164,10 @@ function MyProfile() {
                 value={editing ? draft.name : profile.name}
                 onChange={handleChange}
                 disabled={!editing}
-                placeholder={
-                  editing ? 'Enter full name' : 'Delivery Staff'
-                }
+                required
+                maxLength={100}
+                autoComplete="name"
+                placeholder="Enter full name"
               />
             </label>
 
@@ -135,12 +176,10 @@ function MyProfile() {
               <input
                 type="text"
                 name="staffId"
-                value={editing ? draft.staffId : profile.staffId}
-                onChange={handleChange}
-                disabled={!editing}
-                placeholder={
-                  editing ? 'Enter staff ID' : 'Not assigned'
-                }
+                value={profile.staffId}
+                disabled
+                readOnly
+                placeholder="Assigned by administrator"
                 autoComplete="off"
               />
             </label>
@@ -153,6 +192,8 @@ function MyProfile() {
                 value={editing ? draft.phone : profile.phone}
                 onChange={handleChange}
                 disabled={!editing}
+                maxLength={20}
+                autoComplete="tel"
                 placeholder="Enter phone number"
               />
             </label>
@@ -165,28 +206,20 @@ function MyProfile() {
                 value={editing ? draft.email : profile.email}
                 onChange={handleChange}
                 disabled={!editing}
+                maxLength={254}
+                autoComplete="email"
                 placeholder="Enter email address"
               />
             </label>
 
             <label className="profile-full-width">
               Role
-              <select
-                name="role"
-                value={editing ? draft.role : profile.role}
-                onChange={handleChange}
-                disabled={!editing}
-              >
-                <option value="Delivery Partner">
-                  Delivery Partner
-                </option>
-                <option value="Delivery Staff">
-                  Delivery Staff
-                </option>
-                <option value="Delivery Supervisor">
-                  Delivery Supervisor
-                </option>
-              </select>
+              <input
+                type="text"
+                value={profile.role}
+                disabled
+                readOnly
+              />
             </label>
           </div>
 
@@ -209,16 +242,18 @@ function MyProfile() {
             </div>
           )}
 
-          {saved && (
-            <p className="profile-success" role="status">
-              Profile updated for this preview session.
+          {error && (
+            <p className="profile-error" role="alert">
+              {error}
             </p>
           )}
 
-          <p className="demo-note">
-            Preview only. Profile changes are held in the
-            current page state and are not saved to a database.
-          </p>
+          {saved && (
+            <p className="profile-success" role="status">
+              Changes updated in the current session.
+              Database saving is not connected yet.
+            </p>
+          )}
         </form>
       </section>
 
