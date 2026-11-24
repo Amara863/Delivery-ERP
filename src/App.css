@@ -3184,3 +3184,1118 @@ textarea:focus {
     min-width: 0;
   }
 }
+
+/* ===== Driver Login & Sidebar Session Styles ===== */
+.driver-login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #e6f0dc;
+}
+
+.driver-login-card {
+  width: 100%;
+  max-width: 960px;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  background: #ffffff;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(17, 56, 35, 0.14);
+  border: 1px solid rgba(22, 74, 46, 0.12);
+}
+
+.driver-login-visual {
+  position: relative;
+  min-height: 460px;
+  background: #14452b;
+}
+
+.driver-login-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.driver-login-overlay {
+  position: absolute;
+  inset: 0;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(
+    180deg,
+    rgba(13, 47, 29, 0.08) 25%,
+    rgba(13, 47, 29, 0.86) 100%
+  );
+  color: #ffffff;
+}
+
+.driver-login-overlay span {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #cfe8c5;
+  margin-bottom: 6px;
+}
+
+.driver-login-overlay h2 {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.25;
+  color: #ffffff;
+}
+
+.driver-login-form {
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+.login-eyebrow {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #2c6e49;
+}
+
+.driver-login-form h1 {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.2;
+  color: #14452b;
+}
+
+.login-subtitle {
+  margin: 0 0 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #5b6d62;
+}
+
+.login-error {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fdecec;
+  color: #a62626;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.login-field span {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1d3b2a;
+}
+
+.login-field input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #cdd9cf;
+  background: #f9fbf9;
+  font-size: 14px;
+  color: #132a1e;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.login-field input:focus {
+  border-color: #1e603c;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(30, 96, 60, 0.12);
+}
+
+.login-submit-btn {
+  margin-top: 6px;
+  padding: 13px 18px;
+  border: none;
+  border-radius: 12px;
+  background: #175233;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.login-submit-btn:hover:not(:disabled) {
+  background: #113e26;
+}
+
+.login-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Sidebar Driver Chip & Logout Button */
+.driver-chip {
+  margin: 0 0 18px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.driver-chip strong {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.driver-chip span {
+  font-size: 12px;
+  color: #cfe3d5;
+  word-break: break-all;
+}
+
+.logout-btn {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+@media (max-width: 768px) {
+  .driver-login-card {
+    grid-template-columns: 1fr;
+  }
+
+  .driver-login-visual {
+    min-height: 220px;
+  }
+
+  .driver-login-form {
+    padding: 28px 22px;
+  }
+}
+
+/* ===== Force Clean Split Login Layout ===== */
+.gok-login-shell {
+  min-height: 100vh !important;
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: 1.15fr 1fr !important;
+  background: #e6f0dc !important;
+}
+
+.gok-login-left {
+  position: relative !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  padding: 28px 34px !important;
+  overflow: hidden !important;
+  color: #ffffff !important;
+}
+
+.gok-login-bg {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  z-index: 0 !important;
+}
+
+.gok-login-scrim {
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 28, 18, 0.35) 0%,
+    rgba(10, 28, 18, 0.72) 100%
+  ) !important;
+  z-index: 1 !important;
+}
+
+.gok-login-badge,
+.gok-login-hero-copy {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.gok-login-badge {
+  align-self: flex-start !important;
+  padding: 10px 14px !important;
+  border-radius: 10px !important;
+  background: rgba(16, 48, 30, 0.88) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+
+.gok-login-badge strong,
+.gok-login-hero-copy h1,
+.gok-login-stats strong {
+  color: #ffffff !important;
+}
+
+.gok-login-badge span,
+.gok-login-kicker,
+.gok-login-hero-copy p,
+.gok-login-stats span {
+  color: #e6f3e8 !important;
+}
+
+.gok-login-hero-copy h1 {
+  margin: 0 0 12px !important;
+  font-size: 36px !important;
+  line-height: 1.15 !important;
+}
+
+.gok-login-hero-copy p {
+  margin: 0 0 22px !important;
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+}
+
+.gok-login-stats {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 16px !important;
+  padding-top: 16px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.24) !important;
+}
+
+.gok-login-right {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 28px 24px !important;
+  background: #e6f0dc !important;
+}
+
+.gok-login-panel {
+  width: 100% !important;
+  max-width: 440px !important;
+  background: #ffffff !important;
+  border-radius: 18px !important;
+  padding: 28px 26px !important;
+  box-shadow: 0 14px 34px rgba(17, 56, 35, 0.12) !important;
+  border: 1px solid rgba(22, 74, 46, 0.14) !important;
+}
+
+.gok-driver-pills {
+  display: flex !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 8px !important;
+}
+
+.gok-driver-pill {
+  padding: 7px 14px !important;
+  border-radius: 999px !important;
+  border: 1px solid #cdd9cf !important;
+  background: #f5f8f5 !important;
+  color: #203729 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+
+.gok-driver-pill.active {
+  background: #1b5e3a !important;
+  border-color: #1b5e3a !important;
+  color: #ffffff !important;
+}
+
+.gok-login-form {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+}
+
+.gok-field {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+.gok-field input {
+  width: 100% !important;
+  padding: 10px 12px !important;
+  border-radius: 8px !important;
+  border: 1px solid #cfd8d0 !important;
+  background: #ffffff !important;
+  font-size: 13px !important;
+  color: #14261c !important;
+  box-sizing: border-box !important;
+}
+
+.gok-password-wrap {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.gok-password-wrap input {
+  padding-right: 40px !important;
+}
+
+.gok-eye-btn {
+  position: absolute !important;
+  right: 8px !important;
+  background: transparent !important;
+  border: none !important;
+  font-size: 16px !important;
+  padding: 4px !important;
+  cursor: pointer !important;
+}
+
+.gok-login-btn {
+  width: 100% !important;
+  padding: 11px 16px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  background: #2f6f4e !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+
+.gok-accounts-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+.gok-account-card {
+  width: 100% !important;
+  text-align: left !important;
+  padding: 10px 12px !important;
+  border-radius: 10px !important;
+  border: 1px solid #d5dfd7 !important;
+  background: #ffffff !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  cursor: pointer !important;
+}
+
+.gok-account-card.selected {
+  background: #eef7ef !important;
+  border-color: #7ab38b !important;
+}
+
+@media (max-width: 900px) {
+  .gok-login-shell {
+    grid-template-columns: 1fr !important;
+  }
+
+  .gok-login-left {
+    min-height: 280px !important;
+  }
+}
+
+/* ===== Exact Clean Spacing for Driver Login ===== */
+.gok-login-shell {
+  min-height: 100vh !important;
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: 1.15fr 1fr !important;
+  background: #e6f0dc !important;
+}
+
+.gok-login-left {
+  position: relative !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  padding: 28px 34px !important;
+  overflow: hidden !important;
+  color: #ffffff !important;
+}
+
+.gok-login-bg {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  z-index: 0 !important;
+}
+
+.gok-login-scrim {
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 28, 18, 0.35) 0%,
+    rgba(10, 28, 18, 0.72) 100%
+  ) !important;
+  z-index: 1 !important;
+}
+
+.gok-login-badge,
+.gok-login-hero-copy {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.gok-login-badge {
+  align-self: flex-start !important;
+  padding: 10px 14px !important;
+  border-radius: 10px !important;
+  background: rgba(16, 48, 30, 0.88) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+
+.gok-login-badge strong,
+.gok-login-hero-copy h1,
+.gok-login-stats strong {
+  color: #ffffff !important;
+}
+
+.gok-login-badge span,
+.gok-login-kicker,
+.gok-login-hero-copy p,
+.gok-login-stats span {
+  color: #e6f3e8 !important;
+}
+
+.gok-login-hero-copy h1 {
+  margin: 0 0 12px !important;
+  font-size: 36px !important;
+  line-height: 1.15 !important;
+}
+
+.gok-login-hero-copy p {
+  margin: 0 0 22px !important;
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+}
+
+.gok-login-stats {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 16px !important;
+  padding-top: 16px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.24) !important;
+}
+
+.gok-login-right {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 28px 24px !important;
+  background: #e6f0dc !important;
+}
+
+.gok-login-panel {
+  width: 100% !important;
+  max-width: 440px !important;
+  background: #ffffff !important;
+  border-radius: 18px !important;
+  padding: 28px 26px !important;
+  box-shadow: 0 14px 34px rgba(17, 56, 35, 0.12) !important;
+  border: 1px solid rgba(22, 74, 46, 0.14) !important;
+}
+
+.gok-login-panel h2 {
+  margin: 0 0 4px !important;
+  font-size: 26px !important;
+  color: #152b1e !important;
+}
+
+.gok-login-sub {
+  margin: 0 0 16px !important;
+  font-size: 13px !important;
+  color: #5d6e63 !important;
+}
+
+.gok-driver-pills {
+  display: flex !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 10px !important;
+}
+
+.gok-driver-pill {
+  padding: 7px 14px !important;
+  border-radius: 999px !important;
+  border: 1px solid #cdd9cf !important;
+  background: #f5f8f5 !important;
+  color: #203729 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+
+.gok-driver-pill.active {
+  background: #1b5e3a !important;
+  border-color: #1b5e3a !important;
+  color: #ffffff !important;
+}
+
+.gok-selected-note {
+  margin: 0 0 16px !important;
+  font-size: 12px !important;
+  color: #4f6356 !important;
+}
+
+.gok-login-form {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+}
+
+.gok-field {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+.gok-field > span {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #22382b !important;
+}
+
+.gok-field input {
+  width: 100% !important;
+  padding: 10px 12px !important;
+  border-radius: 8px !important;
+  border: 1px solid #cfd8d0 !important;
+  background: #ffffff !important;
+  font-size: 13px !important;
+  color: #14261c !important;
+  box-sizing: border-box !important;
+}
+
+.gok-password-wrap {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.gok-password-wrap input {
+  padding-right: 40px !important;
+}
+
+.gok-eye-btn {
+  position: absolute !important;
+  right: 8px !important;
+  background: transparent !important;
+  border: none !important;
+  font-size: 16px !important;
+  padding: 4px !important;
+  cursor: pointer !important;
+}
+
+.gok-login-btn {
+  margin-top: 6px !important;
+  width: 100% !important;
+  padding: 11px 16px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  background: #2f6f4e !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+
+.gok-info-banner {
+  margin-top: 16px !important;
+  padding: 11px 14px !important;
+  border-radius: 10px !important;
+  background: #eef6ee !important;
+  color: #2d5a3e !important;
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.gok-info-icon {
+  flex-shrink: 0 !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+}
+
+.gok-accounts-section {
+  margin-top: 18px !important;
+}
+
+.gok-accounts-title {
+  margin: 0 0 10px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #364b3d !important;
+}
+
+.gok-accounts-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+.gok-account-card {
+  width: 100% !important;
+  text-align: left !important;
+  padding: 11px 14px !important;
+  border-radius: 10px !important;
+  border: 1px solid #d5dfd7 !important;
+  background: #ffffff !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  cursor: pointer !important;
+}
+
+.gok-account-card.selected {
+  background: #eef7ef !important;
+  border-color: #7ab38b !important;
+}
+
+.gok-account-card strong {
+  font-size: 13px !important;
+  color: #162b1f !important;
+}
+
+.gok-account-card span {
+  font-size: 11px !important;
+  color: #5b6d62 !important;
+}
+
+.gok-account-card small {
+  font-size: 12px !important;
+  color: #2b4335 !important;
+}
+
+@media (max-width: 900px) {
+  .gok-login-shell {
+    grid-template-columns: 1fr !important;
+  }
+
+  .gok-login-left {
+    min-height: 280px !important;
+  }
+}
+
+/* ===== My Profile Card & Session Layout ===== */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.header-profile-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #ffffff;
+  border: 1px solid #d5dfd7;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(17, 56, 35, 0.05);
+}
+
+.header-profile-badge strong {
+  display: block;
+  font-size: 14px;
+  color: #152b1e;
+}
+
+.header-profile-badge span {
+  display: block;
+  font-size: 12px;
+  color: #5d6e63;
+}
+
+.avatar-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #e4f2e6;
+  color: #1b5e3a;
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-section h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  color: #152b1e;
+}
+
+.section-subtitle {
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: #5d6e63;
+}
+
+.profile-card {
+  background: #f4f8f1;
+  border: 1px solid #d7e3d5;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(17, 56, 35, 0.05);
+}
+
+.profile-summary-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar-lg {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: #2f6f4e;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-summary-meta h3 {
+  margin: 0 0 2px;
+  font-size: 20px;
+  color: #152b1e;
+}
+
+.profile-summary-meta p {
+  margin: 0 0 2px;
+  font-size: 13px;
+  color: #4f6356;
+}
+
+.profile-summary-meta span {
+  font-size: 13px;
+  color: #5d6e63;
+}
+
+.profile-divider {
+  border: none;
+  border-top: 1px solid #dce6d9;
+  margin: 22px 0;
+}
+
+.account-details-block h3 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  color: #152b1e;
+}
+
+.profile-grid-two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.profile-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f3528;
+}
+
+.profile-field input,
+.profile-field input:read-only,
+.profile-field input:disabled {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #d5dfd7;
+  background: #edf2ea;
+  color: #56685c;
+  font-size: 14px;
+  box-sizing: border-box;
+  cursor: not-allowed;
+  user-select: none;
+}
+
+.workspace-footer {
+  margin-top: 28px;
+  padding-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  color: #637469;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .profile-grid-two {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card {
+    padding: 18px;
+  }
+}
+
+/* ===== Mobile Viewport Full-Width Fix (392px and below) ===== */
+@media (max-width: 900px) {
+  html,
+  body,
+  #root {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  .delivery-app {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  .mobile-topbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 40 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    padding: 12px 14px !important;
+    background: #13462c !important;
+    color: #ffffff !important;
+  }
+
+  .main-content {
+    display: block !important;
+    flex: none !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 14px 12px 24px !important;
+    overflow-x: hidden !important;
+  }
+
+  .overview-page,
+  .deliveries-page,
+  .page-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .delivery-welcome {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    min-height: auto !important;
+  }
+
+  .welcome-copy {
+    padding: 20px 14px !important;
+    text-align: center !important;
+  }
+
+  .welcome-copy h2 {
+    font-size: 24px !important;
+    line-height: 1.2 !important;
+  }
+
+  .delivery-welcome .welcome-art,
+  .delivery-welcome .gaushala-photo {
+    width: 100% !important;
+    min-height: 190px !important;
+    height: 190px !important;
+  }
+
+  .dashboard-metrics,
+  .delivery-mini-metrics,
+  .dashboard-lower-grid,
+  .summary-grid-v2,
+  .route-summary-cards,
+  .mapbox-workspace,
+  .profile-grid-two {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+  }
+
+  .metric-card,
+  .dashboard-panel,
+  .route-summary-card,
+  .mapbox-control-panel,
+  .mapbox-map-panel,
+  .profile-card {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* ===== Exact Gokulavanam-Style Mobile Stacked Sidebar + Content ===== */
+@media (max-width: 768px) {
+  .mobile-topbar,
+  .mobile-sidebar-backdrop,
+  .sidebar-close-btn {
+    display: none !important;
+  }
+
+  .delivery-app {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+    overflow-x: hidden !important;
+  }
+
+  .sidebar {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    flex: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    padding: 18px 16px 20px !important;
+    background: var(--forest) !important;
+    color: var(--white) !important;
+  }
+
+  .brand {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    margin-bottom: 16px !important;
+    padding: 0 4px !important;
+  }
+
+  .brand > div,
+  .brand h2,
+  .brand p,
+  .menu-label,
+  .nav-link > span:last-child,
+  .sidebar-bottom {
+    display: block !important;
+  }
+
+  .driver-chip {
+    display: flex !important;
+    margin: 0 0 16px !important;
+    padding: 12px 14px !important;
+  }
+
+  .menu-label {
+    margin: 0 0 10px !important;
+    padding: 0 8px !important;
+  }
+
+  .sidebar-nav {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+    width: 100% !important;
+  }
+
+  .nav-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-height: 46px !important;
+    padding: 11px 14px !important;
+    border-radius: 10px !important;
+    font-size: 13px !important;
+  }
+
+  .nav-link > span:first-child {
+    display: grid !important;
+    flex: 0 0 18px !important;
+    width: 18px !important;
+    font-size: 16px !important;
+  }
+
+  .sidebar-bottom {
+    margin-top: 18px !important;
+    padding-top: 12px !important;
+  }
+
+  .main-content {
+    display: block !important;
+    flex: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 20px 14px 28px !important;
+    overflow-x: hidden !important;
+  }
+}
+
+/* ===== Strict Lock on My Profile Fields (No Selection, Only Cross Cursor) ===== */
+.profile-field,
+.profile-field label {
+  cursor: not-allowed !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+.profile-field input,
+.profile-field input:read-only,
+.profile-field input:disabled,
+.profile-field input[readonly] {
+  pointer-events: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  cursor: not-allowed !important;
+}

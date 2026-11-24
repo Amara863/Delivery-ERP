@@ -1,4 +1,3 @@
-
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { DeliveryDataContext } from './deliveryContext'
@@ -200,6 +199,23 @@ export function DeliveryDataProvider({ children }) {
       updatePayload.delivery_date = new Date()
         .toISOString()
         .slice(0, 10)
+
+      const isCod =
+        String(currentOrder.paymentMode || '').trim().toUpperCase() === 'COD'
+
+      const calculatedOrderTotal = (currentOrder.items ?? []).reduce(
+        (sum, item) =>
+          sum + Number(item.quantity || 0) * Number(item.unitPrice || 0),
+        0
+      )
+
+      if (
+        isCod &&
+        calculatedOrderTotal > 0 &&
+        Number(currentOrder.amountPaid || 0) < calculatedOrderTotal
+      ) {
+        updatePayload.amount_paid = calculatedOrderTotal
+      }
     }
 
     const { data, error } = await supabase
